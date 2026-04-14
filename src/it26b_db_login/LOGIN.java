@@ -9,14 +9,20 @@ package it26b_db_login;
  * @author User
  */
 public class LOGIN extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LOGIN.class.getName());
 
-    /**
-     * Creates new form LOGIN
-     */
+    boolean isLoggedIn = false;
+
     public LOGIN() {
         initComponents();
+
+        Login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoginActionPerformed(evt);
+            }
+        });
+
     }
 
     /**
@@ -28,21 +34,141 @@ public class LOGIN extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        Email = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        PASS = new javax.swing.JPasswordField();
+        Login = new javax.swing.JToggleButton();
+        Register = new javax.swing.JToggleButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
+
+        jLabel1.setFont(new java.awt.Font("Showcard Gothic", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("LOGIN");
+
+        jLabel2.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("E-mail:");
+
+        Email.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        Email.addActionListener(this::EmailActionPerformed);
+
+        jLabel3.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Password:");
+
+        PASS.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        PASS.addActionListener(this::PASSActionPerformed);
+
+        Login.setText("Login");
+        Login.addActionListener(this::LoginActionPerformed);
+
+        Register.setText("Register");
+        Register.addActionListener(this::RegisterActionPerformed);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(248, 248, 248)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                                .addComponent(Register, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Email)
+                            .addComponent(PASS))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(PASS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Login)
+                    .addComponent(Register))
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void EmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EmailActionPerformed
+
+    private void PASSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PASSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PASSActionPerformed
+
+    private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
+
+        String email = Email.getText();
+        String password = new String(PASS.getPassword());
+
+        if (isLoggedIn) {
+            javax.swing.JOptionPane.showMessageDialog(this, "You are already logged in!");
+
+            // go directly to HOME
+            HOME home = new HOME();
+            home.setVisible(true);
+            this.dispose();
+            return;
+        }
+
+        if (email.equals("admin@gmail.com") && password.equals("1234")) {
+            isLoggedIn = true;
+
+            javax.swing.JOptionPane.showMessageDialog(this, "You are already logged in!");
+
+            HOME home = new HOME();
+            home.setVisible(true);
+            this.dispose();
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Invalid Email or Password!");
+        }
+    }//GEN-LAST:event_LoginActionPerformed
+
+    private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
+
+    }//GEN-LAST:event_RegisterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +196,13 @@ public class LOGIN extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Email;
+    private javax.swing.JToggleButton Login;
+    private javax.swing.JPasswordField PASS;
+    private javax.swing.JToggleButton Register;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
