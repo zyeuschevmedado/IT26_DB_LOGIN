@@ -12,11 +12,11 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class REGISTER extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(REGISTER.class.getName());
 
-     static ArrayList<String[]> users = new ArrayList<>();
-     
+    static ArrayList<String[]> users = new ArrayList<>();
+
     public REGISTER() {
         initComponents();
     }
@@ -230,6 +230,7 @@ public class REGISTER extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameActionPerformed
@@ -249,50 +250,59 @@ public class REGISTER extends javax.swing.JFrame {
     }//GEN-LAST:event_EmailActionPerformed
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
-        
-      String fname = Name.getText();
-    String lname = Lname.getText();
-    String username = UName.getText();
-    String email = Email.getText();
-    String password = new String(PASS.getPassword());
-    String confirm = new String(Cpass.getPassword());
 
-    // VALIDATION
-    if (fname.isEmpty() || lname.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please fill all fields");
-        return;
-    }
+        String fname = Name.getText();
+        String lname = Lname.getText();
+        String username = UName.getText();
+        String email = Email.getText();
+        String password = new String(PASS.getPassword());
+        String confirm = new String(Cpass.getPassword());
 
-    if (!password.equals(confirm)) {
-        JOptionPane.showMessageDialog(this, "Passwords do not match");
-        return;
-    }
-
-    // CHECK IF USERNAME EXISTS
-    for (String[] user : users) {
-        if (user[2].equals(username)) {
-            JOptionPane.showMessageDialog(this, "Username already exists!");
+        // VALIDATION
+        if (fname.isEmpty() || lname.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields");
             return;
         }
-    }
 
-    // SAVE USER (fname, lname, username, email, password)
-    users.add(new String[]{fname, lname, username, email, password});
+        if (!password.equals(confirm)) {
+            JOptionPane.showMessageDialog(this, "Passwords do not match");
+            return;
+        }
 
-    JOptionPane.showMessageDialog(this, "Registered Successfully!");
+        // CHECK IF USERNAME EXISTS
+        for (String[] user : users) {
+            if (user[2].equals(username)) {
+                JOptionPane.showMessageDialog(this, "Username already exists!");
+                return;
+            }
+        }
 
-    // CLEAR FIELDS
-    Name.setText("");
-    Lname.setText("");
-    UName.setText("");
-    Email.setText("");
-    PASS.setText("");
-    Cpass.setText("");
+        // SAVE USER (fname, lname, username, email, password)
+        users.add(new String[]{fname, lname, username, email, password});
+
+        JOptionPane.showMessageDialog(this, "Registered Successfully!");
+
+        // CLEAR FIELDS
+        Name.setText("");
+        Lname.setText("");
+        UName.setText("");
+        Email.setText("");
+        PASS.setText("");
+        Cpass.setText("");
 
     }//GEN-LAST:event_registerActionPerformed
 
     private void EActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EActionPerformed
-        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Do you really want to exit?",
+                "Exit",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_EActionPerformed
 
     /**
