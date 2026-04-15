@@ -4,6 +4,9 @@
  */
 package it26b_db_login;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
@@ -12,9 +15,8 @@ public class REGISTER extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(REGISTER.class.getName());
 
-    /**
-     * Creates new form REGISTER
-     */
+     static ArrayList<String[]> users = new ArrayList<>();
+     
     public REGISTER() {
         initComponents();
     }
@@ -127,13 +129,11 @@ public class REGISTER extends javax.swing.JFrame {
         jLabel5.setText("Password");
 
         PASS.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        PASS.setText("jPasswordField1");
 
         jLabel6.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         jLabel6.setText("Confirm Password");
 
         Cpass.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        Cpass.setText("jPasswordField1");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -168,9 +168,11 @@ public class REGISTER extends javax.swing.JFrame {
 
         register.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         register.setText("Register");
+        register.addActionListener(this::registerActionPerformed);
 
         E.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         E.setText("Exit");
+        E.addActionListener(this::EActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -245,6 +247,53 @@ public class REGISTER extends javax.swing.JFrame {
     private void EmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_EmailActionPerformed
+
+    private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
+        
+      String fname = Name.getText();
+    String lname = Lname.getText();
+    String username = UName.getText();
+    String email = Email.getText();
+    String password = new String(PASS.getPassword());
+    String confirm = new String(Cpass.getPassword());
+
+    // VALIDATION
+    if (fname.isEmpty() || lname.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please fill all fields");
+        return;
+    }
+
+    if (!password.equals(confirm)) {
+        JOptionPane.showMessageDialog(this, "Passwords do not match");
+        return;
+    }
+
+    // CHECK IF USERNAME EXISTS
+    for (String[] user : users) {
+        if (user[2].equals(username)) {
+            JOptionPane.showMessageDialog(this, "Username already exists!");
+            return;
+        }
+    }
+
+    // SAVE USER (fname, lname, username, email, password)
+    users.add(new String[]{fname, lname, username, email, password});
+
+    JOptionPane.showMessageDialog(this, "Registered Successfully!");
+
+    // CLEAR FIELDS
+    Name.setText("");
+    Lname.setText("");
+    UName.setText("");
+    Email.setText("");
+    PASS.setText("");
+    Cpass.setText("");
+
+    }//GEN-LAST:event_registerActionPerformed
+
+    private void EActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EActionPerformed
 
     /**
      * @param args the command line arguments
