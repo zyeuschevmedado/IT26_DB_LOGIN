@@ -388,7 +388,7 @@ public class Crud extends javax.swing.JFrame {
         log login = new log();
         login.setVisible(true);
 
-        // close current form
+       
         this.dispose();
     }
     }//GEN-LAST:event_LOGActionPerformed

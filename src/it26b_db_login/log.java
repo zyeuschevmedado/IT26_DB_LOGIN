@@ -21,12 +21,9 @@ public class log extends javax.swing.JFrame {
     public log() {
         initComponents();
 
-        Login.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoginActionPerformed(evt);
-            }
-        });
+   
 
+        
     }
 
     /**
@@ -173,7 +170,12 @@ public class log extends javax.swing.JFrame {
 
             if (rs.next()) {
 
-                int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to login");
+                int confirm = JOptionPane.showConfirmDialog(
+                        null,
+                        "Are you sure you want to login?",
+                        "Login",
+                        JOptionPane.YES_NO_OPTION
+                );
 
                 if (confirm == JOptionPane.YES_OPTION) {
                     dash.setVisible(true);
@@ -186,29 +188,28 @@ public class log extends javax.swing.JFrame {
 
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_LoginActionPerformed
 
     private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
 
-    int confirm = JOptionPane.showConfirmDialog(
-            this,
-            "Are you sure you want to exit?",
-            "Exit",
-            JOptionPane.YES_NO_OPTION
-    );
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to exit?",
+                "Exit",
+                JOptionPane.YES_NO_OPTION
+        );
 
-    if (confirm == JOptionPane.YES_OPTION) {
-        System.exit(0);
-    }
+        if (confirm == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_ExitActionPerformed
 
     private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
-          REGISTER reg = new REGISTER();
-    reg.setVisible(true);
+        REGISTER reg = new REGISTER();
+        reg.setVisible(true);
 
-    this.dispose();
+        this.dispose();
     }//GEN-LAST:event_RegisterActionPerformed
 
     /**
