@@ -102,7 +102,7 @@ public class loadingscreen extends javax.swing.JFrame {
                     timer.stop();
                     LC.dispose();
 
-                    LOGIN lr = new LOGIN();
+                    log lr = new log();
                     lr.setVisible(true);
                 }
             });

@@ -288,6 +288,9 @@ public class REGISTER extends javax.swing.JFrame {
 
             javax.swing.JOptionPane.showMessageDialog(this, "Registered Successfully!");
 
+            log login = new log();
+            login.setVisible(true);
+            this.dispose();
             // CLEAR FIELDS
             nam.setText("");
 

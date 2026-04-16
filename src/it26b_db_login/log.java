@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  */
 public class log extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LOGIN.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(log.class.getName());
 
     boolean isLoggedIn = false;
 
@@ -45,6 +45,7 @@ public class log extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         PASSW = new javax.swing.JPasswordField();
         Login = new javax.swing.JToggleButton();
+        Exit = new javax.swing.JToggleButton();
         Register = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -72,6 +73,9 @@ public class log extends javax.swing.JFrame {
         Login.setText("Login");
         Login.addActionListener(this::LoginActionPerformed);
 
+        Exit.setText("EXIT");
+        Exit.addActionListener(this::ExitActionPerformed);
+
         Register.setText("Register");
         Register.addActionListener(this::RegisterActionPerformed);
 
@@ -90,14 +94,17 @@ public class log extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(50, 50, 50)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(Email, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                                .addComponent(PASSW))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                                .addComponent(Register, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(Email)
-                            .addComponent(PASSW))))
-                .addContainerGap(148, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Register, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                                .addComponent(Exit, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(117, 117, 117))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,6 +122,7 @@ public class log extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Login)
+                    .addComponent(Exit)
                     .addComponent(Register))
                 .addContainerGap(81, Short.MAX_VALUE))
         );
@@ -182,8 +190,25 @@ public class log extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_LoginActionPerformed
 
-    private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
 
+    int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to exit?",
+            "Exit",
+            JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        System.exit(0);
+    }
+    }//GEN-LAST:event_ExitActionPerformed
+
+    private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
+          REGISTER reg = new REGISTER();
+    reg.setVisible(true);
+
+    this.dispose();
     }//GEN-LAST:event_RegisterActionPerformed
 
     /**
@@ -213,6 +238,7 @@ public class log extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Email;
+    private javax.swing.JToggleButton Exit;
     private javax.swing.JToggleButton Login;
     private javax.swing.JPasswordField PASSW;
     private javax.swing.JToggleButton Register;
