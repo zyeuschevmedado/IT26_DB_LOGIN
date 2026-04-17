@@ -2,6 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+//jdbc:mysql://localhost:3306/it26db
+
 package it26b_db_login;
 
 import java.util.ArrayList;
@@ -233,7 +235,6 @@ public class REGISTER extends javax.swing.JFrame {
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
         String fname = nam.getText();
-
         String IDD = Id.getText();
         String email = Email.getText();
         String password = new String(PASS.getPassword());
@@ -261,8 +262,10 @@ public class REGISTER extends javax.swing.JFrame {
                     "root",
                     ""
             );
+            
+          
 
-            // CHECK IF USER EXISTS
+          
             java.sql.PreparedStatement check = con.prepareStatement(
                     "SELECT * FROM users WHERE name=?"
             );

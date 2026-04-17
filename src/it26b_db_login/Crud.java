@@ -6,7 +6,6 @@ package it26b_db_login;
 
 import java.sql.Connection;
 import javax.swing.JOptionPane;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
