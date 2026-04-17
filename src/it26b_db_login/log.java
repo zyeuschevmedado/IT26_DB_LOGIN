@@ -21,9 +21,6 @@ public class log extends javax.swing.JFrame {
     public log() {
         initComponents();
 
-   
-
-        
     }
 
     /**
@@ -186,13 +183,10 @@ public class log extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogActionPerformed
-        Crud dash = new Crud();
-
-        Connection conn = DBConnection.getConnection();
-
         try {
+            Connection conn = DBConnection.getConnection();
 
-            String sql = "SELECT * FROM users WHERE email=? AND pass=?";
+            String sql = "SELECT * FROM users WHERE email=? AND password=?";
             PreparedStatement pst = conn.prepareStatement(sql);
 
             String emaill = email.getText();
@@ -206,23 +200,29 @@ public class log extends javax.swing.JFrame {
             if (rs.next()) {
 
                 int confirm = JOptionPane.showConfirmDialog(
-                    null,
-                    "Are you sure you want to login?",
-                    "Login",
-                    JOptionPane.YES_NO_OPTION
+                        null,
+                        "Are you sure you want to login?",
+                        "Login",
+                        JOptionPane.YES_NO_OPTION
                 );
 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    dash.setVisible(true);
-                    dispose();
-                }
 
+                    String username = rs.getString("username");
+
+                    DashB dash = new DashB();
+                    dash.setUsername(username); // 👈 THIS IS THE KEY PART
+                    dash.setVisible(true);
+
+                    this.dispose();
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "INCORRECT CREDENTIALS");
+                JOptionPane.showMessageDialog(this, "INCORRECT CREDENTIALS");
             }
 
         } catch (Exception e) {
-
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_LogActionPerformed
 
