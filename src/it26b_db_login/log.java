@@ -187,7 +187,7 @@ public class log extends javax.swing.JFrame {
 
         try {
 
-            String sql = "SELECT * FROM users WHERE email=? AND pass=?";
+            String sql = "SELECT * FROM users WHERE email=? AND password=?";
             PreparedStatement pst = conn.prepareStatement(sql);
 
             String emaill = email.getText();
@@ -216,7 +216,7 @@ public class log extends javax.swing.JFrame {
                 if (confirm == JOptionPane.YES_OPTION) {
 
                     // 🔥 GET USERNAME FROM DATABASE
-                    String username = rs.getString("email");
+                    String username = rs.getString("username");
                     // change "email" to "name" if your DB has name column
 
                     DashB dash = new DashB();
