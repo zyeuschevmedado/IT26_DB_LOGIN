@@ -183,14 +183,21 @@ public class log extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogActionPerformed
-        try {
-            Connection conn = DBConnection.getConnection();
+        Connection conn = DBConnection.getConnection();
 
-            String sql = "SELECT * FROM users WHERE email=? AND password=?";
+        try {
+
+            String sql = "SELECT * FROM users WHERE email=? AND pass=?";
             PreparedStatement pst = conn.prepareStatement(sql);
 
             String emaill = email.getText();
             String pass = new String(PASSW.getPassword());
+
+            // ❗ VALIDATION (IMPORTANT - EMPTY FIELDS)
+            if (emaill.isEmpty() || pass.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please fill in all fields");
+                return;
+            }
 
             pst.setString(1, emaill);
             pst.setString(2, pass);
@@ -208,20 +215,22 @@ public class log extends javax.swing.JFrame {
 
                 if (confirm == JOptionPane.YES_OPTION) {
 
-                    String username = rs.getString("username");
+                    // 🔥 GET USERNAME FROM DATABASE
+                    String username = rs.getString("email");
+                    // change "email" to "name" if your DB has name column
 
                     DashB dash = new DashB();
-                    dash.setUsername(username); // 👈 THIS IS THE KEY PART
-                    dash.setVisible(true);
+                    dash.setUsername(username); // 🔥 PASS DATA TO DASHBOARD
 
+                    dash.setVisible(true);
                     this.dispose();
                 }
+
             } else {
                 JOptionPane.showMessageDialog(this, "INCORRECT CREDENTIALS");
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_LogActionPerformed

@@ -4,6 +4,9 @@
  */
 package it26b_db_login;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,12 +17,12 @@ public class DashB extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DashB.class.getName());
 
-    
     /**
      * Creates new form DashB
      */
     public DashB() {
         initComponents();
+        loadTable();
     }
 
     public void setUsername(String username) {
@@ -54,6 +57,37 @@ public class DashB extends javax.swing.JFrame {
             return "Female";
         }
         return "";
+    }
+
+    public void loadTable() {
+
+       Connection conn = DBConnection.getConnection();
+
+    try {
+
+        String sql = "SELECT * FROM students";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        javax.swing.table.DefaultTableModel model =
+                (javax.swing.table.DefaultTableModel) jTable1.getModel();
+
+        model.setRowCount(0);
+
+        while (rs.next()) {
+
+            model.addRow(new Object[]{
+                rs.getInt("student_id"),
+                rs.getString("first_name"),
+                rs.getString("last_name"),
+                rs.getString("student_number"),
+                rs.getString("gender")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
     }
 
     /**
@@ -319,28 +353,167 @@ public class DashB extends javax.swing.JFrame {
     }//GEN-LAST:event_stidActionPerformed
 
     private void maleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maleActionPerformed
-        male.setSelected(false);
+        if (male.isSelected()) {
+            f.setSelected(false);
+        }
     }//GEN-LAST:event_maleActionPerformed
 
     private void fActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fActionPerformed
-        f.setSelected(false);
+        if (f.isSelected()) {
+            male.setSelected(false);
+        }
     }//GEN-LAST:event_fActionPerformed
 
     private void ADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADDActionPerformed
-        JOptionPane.showMessageDialog(this, "Add clicked - connect to DB later");
+        Connection conn = DBConnection.getConnection();
+
+    try {
+
+        String fnameVal = fname.getText();
+        String lnameVal = lname.getText();
+        String studentNumVal = stid.getText(); // your textbox = student_number
+        String genderVal = getGender();
+
+        // ❗ EMPTY CHECK
+        if (fnameVal.isEmpty() || lnameVal.isEmpty() || studentNumVal.isEmpty() || genderVal.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields");
+            return;
+        }
+
+        String sql = "INSERT INTO students (first_name, last_name, student_number, gender) VALUES (?, ?, ?, ?)";
+        PreparedStatement pst = conn.prepareStatement(sql);
+
+        pst.setString(1, fnameVal);
+        pst.setString(2, lnameVal);
+        pst.setString(3, studentNumVal);
+        pst.setString(4, genderVal);
+
+        int inserted = pst.executeUpdate();
+
+        if (inserted > 0) {
+            JOptionPane.showMessageDialog(this, "Student Added Successfully!");
+            clearFields();
+            loadTable();
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
     }//GEN-LAST:event_ADDActionPerformed
 
     private void EddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EddActionPerformed
-        JOptionPane.showMessageDialog(this, "Update clicked - connect to DB later");
+
+      Connection conn = DBConnection.getConnection();
+
+    try {
+
+        int row = jTable1.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select a row first!");
+            return;
+        }
+
+        String id = jTable1.getValueAt(row, 0).toString();
+
+        String sql = "UPDATE students SET first_name=?, last_name=?, student_number=?, gender=? WHERE student_id=?";
+        PreparedStatement pst = conn.prepareStatement(sql);
+
+        pst.setString(1, fname.getText());
+        pst.setString(2, lname.getText());
+        pst.setString(3, stid.getText());
+        pst.setString(4, getGender());
+        pst.setString(5, id);
+
+        int updated = pst.executeUpdate();
+
+        if (updated > 0) {
+            JOptionPane.showMessageDialog(this, "Updated Successfully!");
+            loadTable();
+            clearFields();
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
     }//GEN-LAST:event_EddActionPerformed
 
     private void DELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DELActionPerformed
-        JOptionPane.showMessageDialog(this, "Delete clicked - connect to DB later");
+         Connection conn = DBConnection.getConnection();
 
+    try {
+
+        int row = jTable1.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select a row first!");
+            return;
+        }
+
+        String id = jTable1.getValueAt(row, 0).toString();
+
+        String sql = "DELETE FROM students WHERE student_id=?";
+        PreparedStatement pst = conn.prepareStatement(sql);
+
+        pst.setString(1, id);
+
+        int deleted = pst.executeUpdate();
+
+        if (deleted > 0) {
+            JOptionPane.showMessageDialog(this, "Deleted Successfully!");
+            loadTable();
+            clearFields();
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
     }//GEN-LAST:event_DELActionPerformed
 
     private void FindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindActionPerformed
-        JOptionPane.showMessageDialog(this, "Find clicked - connect to DB later");
+        Connection conn = DBConnection.getConnection();
+
+    try {
+
+        String search = jTextField1.getText();
+
+        if (search.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter Student ID");
+            return;
+        }
+
+        String sql = "SELECT * FROM students WHERE student_id = ?";
+        PreparedStatement pst = conn.prepareStatement(sql);
+
+        pst.setInt(1, Integer.parseInt(search));
+
+        ResultSet rs = pst.executeQuery();
+
+        javax.swing.table.DefaultTableModel model =
+                (javax.swing.table.DefaultTableModel) jTable1.getModel();
+
+        model.setRowCount(0);
+
+        if (rs.next()) {
+
+            model.addRow(new Object[]{
+                rs.getInt("student_id"),
+                rs.getString("first_name"),
+                rs.getString("last_name"),
+                rs.getString("student_number"),
+                rs.getString("gender")
+            });
+
+        } else {
+            JOptionPane.showMessageDialog(this, "No student found!");
+            loadTable();
+        }
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "ID must be a number!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
     }//GEN-LAST:event_FindActionPerformed
 
     /**
