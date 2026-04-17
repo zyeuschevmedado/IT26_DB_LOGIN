@@ -145,7 +145,7 @@ public class REGISTER extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(male)
                     .addComponent(f))
-                .addGap(22, 22, 22))
+                .addContainerGap())
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
