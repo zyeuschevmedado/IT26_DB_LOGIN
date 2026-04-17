@@ -3,10 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 //jdbc:mysql://localhost:3306/it26db
-
 package it26b_db_login;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -248,57 +252,59 @@ public class REGISTER extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void maleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maleActionPerformed
-        male.setSelected(false);
+        male.setSelected(true);
+        f.setSelected(false);
     }//GEN-LAST:event_maleActionPerformed
 
     private void fActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fActionPerformed
-        f.setSelected(false);
+        f.setSelected(true);
+        male.setSelected(false);
     }//GEN-LAST:event_fActionPerformed
 
     private void regActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regActionPerformed
         try {
-            String fname = name1.getText();
-            String lname = lastn.getText();
-            String mail = email.getText();
+            Connection conn = DBConnection.getConnection();
 
-            String pass1 = new String(jPasswordField1.getPassword());
-            String pass2 = new String(jPasswordField2.getPassword());
+            if (conn == null) {
+                JOptionPane.showMessageDialog(this, "Database not connected!");
+                return;
+            }
 
-            String username = email1.getText();
+            // ================= GET VALUES =================
+            String fname = name1.getText().trim();
+            String lname = lastn.getText().trim();
+            String mail = email.getText().trim();
+            String username = email1.getText().trim();
+
+            String pass1 = new String(jPasswordField1.getPassword()).trim();
+            String pass2 = new String(jPasswordField2.getPassword()).trim();
+
+            // ================= VALIDATION =================
+            if (fname.isEmpty() || lname.isEmpty() || mail.isEmpty()
+                    || username.isEmpty() || pass1.isEmpty() || pass2.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please fill all fields!");
+                return;
+            }
 
             String gender = "";
             if (male.isSelected()) {
                 gender = "Male";
             } else if (f.isSelected()) {
                 gender = "Female";
-            }
-
-            if (fname.isEmpty() || lname.isEmpty() || mail.isEmpty() || pass1.isEmpty() || pass2.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "All fields are required!");
-                return;
-            }
-
-            if (username.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Username is required!");
-                return;
-            }
-
-            if (gender.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Please select gender!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select gender!");
                 return;
             }
 
             if (!pass1.equals(pass2)) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Passwords do not match!");
+                JOptionPane.showMessageDialog(this, "Passwords do not match!");
                 return;
             }
 
-            java.sql.Connection conn = java.sql.DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/THEALOGS", "root", ""
-            );
-
+            // ================= INSERT USER =================
             String sqlUser = "INSERT INTO users(username, email, password) VALUES (?, ?, ?)";
-            java.sql.PreparedStatement pstUser = conn.prepareStatement(sqlUser, java.sql.Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pstUser = conn.prepareStatement(sqlUser, Statement.RETURN_GENERATED_KEYS);
 
             pstUser.setString(1, username);
             pstUser.setString(2, mail);
@@ -306,15 +312,16 @@ public class REGISTER extends javax.swing.JFrame {
 
             pstUser.executeUpdate();
 
-            java.sql.ResultSet rs = pstUser.getGeneratedKeys();
+            ResultSet rs = pstUser.getGeneratedKeys();
             int userId = 0;
 
             if (rs.next()) {
                 userId = rs.getInt(1);
             }
 
+            // ================= INSERT DETAILS =================
             String sqlDetails = "INSERT INTO user_details(user_id, firstname, lastname, gender) VALUES (?, ?, ?, ?)";
-            java.sql.PreparedStatement pstDetails = conn.prepareStatement(sqlDetails);
+            PreparedStatement pstDetails = conn.prepareStatement(sqlDetails);
 
             pstDetails.setInt(1, userId);
             pstDetails.setString(2, fname);
@@ -323,8 +330,9 @@ public class REGISTER extends javax.swing.JFrame {
 
             pstDetails.executeUpdate();
 
-            javax.swing.JOptionPane.showMessageDialog(this, "Registered Successfully!");
+            JOptionPane.showMessageDialog(this, "Registered Successfully!");
 
+            // ================= CLEAR FIELDS =================
             name1.setText("");
             lastn.setText("");
             email.setText("");
@@ -335,16 +343,16 @@ public class REGISTER extends javax.swing.JFrame {
             f.setSelected(false);
 
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, e);
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_regActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         int confirm = JOptionPane.showConfirmDialog(
-            this,
-            "Are you sure you want to exit?",
-            "Exit",
-            javax.swing.JOptionPane.YES_NO_OPTION
+                this,
+                "Are you sure you want to exit?",
+                "Exit",
+                javax.swing.JOptionPane.YES_NO_OPTION
         );
 
         if (confirm == javax.swing.JOptionPane.YES_OPTION) {
